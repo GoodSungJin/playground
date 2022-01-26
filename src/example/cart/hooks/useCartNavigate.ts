@@ -1,6 +1,7 @@
 import { ReactNode, useMemo } from "react";
-import { CartHistory, HistoryOptions, SelectedItem } from "../recoil/type";
 import { RecoilState, useRecoilState } from "recoil";
+
+import { CartHistory, HistoryOptions } from "../recoil/type";
 
 export default function useCartNavigate(
   cartHistoryState: RecoilState<CartHistory[]>,
@@ -9,7 +10,6 @@ export default function useCartNavigate(
   const [history, setHistory] = useRecoilState(cartHistoryState);
 
   const navigate = (name: string, options?: HistoryOptions) => {
-    console.log(options, ")))");
     setHistory((prev) => [
       ...prev,
       {
@@ -35,32 +35,11 @@ export default function useCartNavigate(
     setHistory([]);
   };
 
-  const getSelectedItems = () => {
-    console.log(history, "DS<SD<");
-    console.log(
-      history.reduce(
-        (accu, curr) =>
-          curr.options?.state.selectedItem
-            ? [...accu, curr.options.state.selectedItem]
-            : accu,
-        [] as SelectedItem[]
-      ),
-      "2222222"
-    );
-    return history.reduce(
-      (accu, curr) =>
-        curr.options?.state.selectedItem
-          ? [...accu, curr.options.state.selectedItem]
-          : accu,
-      [] as SelectedItem[]
-    );
-  };
   return {
     back,
     route,
     reset,
     navigate,
-    getSelectedItems,
     currHistory: history[history.length - 1],
   };
 }

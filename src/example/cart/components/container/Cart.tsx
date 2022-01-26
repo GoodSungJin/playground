@@ -2,19 +2,18 @@ import React from "react";
 import styled from "styled-components";
 import { BiArrowBack } from "react-icons/bi";
 
-import useCartNavigate from "../../hooks/useCartNavigate";
-
-import { cartHistoryState, selectedCartItems } from "../../recoil";
-
 import Recommendation from "./Recommendation";
 import OptionSelector from "./OptionSelector";
 import Default from "./Default";
-import { useRecoilValue } from "recoil";
 
-const Cart = () => {
-  const { back, route, reset } = useCartNavigate(cartHistoryState, [
+import useCartNavigate from "../../hooks/useCartNavigate";
+
+import { cartHistoryState } from "../../recoil";
+
+function Cart() {
+  const { back, route } = useCartNavigate(cartHistoryState, [
     {
-      name: "default",
+      name: "",
       isDefault: true,
       element: <Default />,
     },
@@ -48,7 +47,7 @@ const Cart = () => {
       </StdCartContent>
     </StdCart>
   );
-};
+}
 
 export default Cart;
 

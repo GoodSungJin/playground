@@ -1,21 +1,22 @@
 import React, { useMemo } from "react";
-import useCartNavigate from "../../hooks/useCartNavigate";
-import { cartHistoryState, selectedCartItems } from "../../recoil";
+
 import CartTitle from "../presentational/CartTitle";
 import CartList from "../presentational/lIst/CartList";
 import CartListItem from "../presentational/lIst/CartListItem";
 import CartPlusButton from "../presentational/button/CartPlus";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+
+import useCartNavigate from "../../hooks/useCartNavigate";
+
+import { cartHistoryState } from "../../recoil";
 
 function OptionSelector() {
-  const setCartItems = useSetRecoilState(selectedCartItems);
   const cartNavigate = useCartNavigate(cartHistoryState);
   const currItem = useMemo(
     () => cartNavigate.currHistory.options?.state.item,
     [cartNavigate.currHistory.options?.state.item]
   );
 
-  const onClick = (option: string) => {
+  const onClick = async (option: string) => {
     if (currItem?.recommendationID) {
       cartNavigate.navigate("recommendation", {
         state: {
@@ -27,12 +28,8 @@ function OptionSelector() {
           },
         },
       });
-
-      setCartItems(cartNavigate.getSelectedItems());
     } else {
-      setCartItems(cartNavigate.getSelectedItems());
-
-      cartNavigate.navigate("default", {
+      cartNavigate.navigate("", {
         state: {
           selectedItem: {
             option,

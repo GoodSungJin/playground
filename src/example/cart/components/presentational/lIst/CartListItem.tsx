@@ -1,9 +1,9 @@
 import React, { ReactNode } from "react";
 import styled from "styled-components";
 
-const CartListItem = ({ children, onClick }: Props) => {
-  return <StdList onClick={onClick}>{children}</StdList>;
-};
+function CartListItem({ children, onClick }: Props) {
+  return <StdListItem onClick={onClick}>{children}</StdListItem>;
+}
 
 export default CartListItem;
 
@@ -12,7 +12,7 @@ interface Props {
   onClick?: () => void;
 }
 
-const StdList = styled.li`
+const StdListItem = styled.li`
   display: flex;
   align-items: center;
   justify-content: space-between;

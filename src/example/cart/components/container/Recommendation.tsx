@@ -1,14 +1,17 @@
 import React, { useMemo } from "react";
+import styled from "styled-components";
 
-import useCartNavigate from "../../hooks/useCartNavigate";
-import { cartHistoryState } from "../../recoil";
-import { RECOMMENDATIONS } from "../../constants";
-import { Item } from "../../constants/type";
 import CartTitle from "../presentational/CartTitle";
 import CartList from "../presentational/lIst/CartList";
 import CartListItem from "../presentational/lIst/CartListItem";
 import CartPlusButton from "../presentational/button/CartPlus";
-import styled from "styled-components";
+
+import useCartNavigate from "../../hooks/useCartNavigate";
+
+import { cartHistoryState } from "../../recoil";
+import { ITEMS, RECOMMENDATIONS } from "../../constants";
+import { Item } from "../../constants/type";
+import { getItemByItemID } from "../../utils";
 
 function Recommendation() {
   const cartNavigate = useCartNavigate(cartHistoryState);
@@ -19,11 +22,9 @@ function Recommendation() {
   );
 
   const onClick = (item: Item) => {
-    cartNavigate.navigate("");
-
     cartNavigate.navigate("option-selector", {
       state: {
-        item: item,
+        item,
       },
     });
   };
@@ -34,15 +35,25 @@ function Recommendation() {
 
       <CartList>
         {currItem?.recommendationID &&
-          RECOMMENDATIONS[currItem.recommendationID].map((item) => (
-            <CartListItem key={item.name} onClick={() => onClick(item)}>
-              <span>{item.name}</span>
-              <CartPlusButton />
-            </CartListItem>
-          ))}
+          RECOMMENDATIONS[currItem.recommendationID].map((itemID) => {
+            const item = getItemByItemID(ITEMS, itemID)!;
+
+            return (
+              <CartListItem key={item.name} onClick={() => onClick(item)}>
+                <span>{item.name}</span>
+                <CartPlusButton />
+              </CartListItem>
+            );
+          })}
       </CartList>
 
-      <StdSkipButton>넘어가기</StdSkipButton>
+      <StdSkipButton
+        onClick={() => {
+          cartNavigate.navigate("");
+        }}
+      >
+        넘어가기
+      </StdSkipButton>
     </StdRecommendation>
   );
 }

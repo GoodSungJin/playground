@@ -6,7 +6,8 @@ export type ITEM_ID =
   | 100_005
   | 100_006
   | 100_007
-  | 100_008;
+  | 100_008
+  | 100_009;
 export type RECOMMENDATION_ID = 300_001 | 300_002;
 
 export interface Item {
@@ -15,4 +16,5 @@ export interface Item {
   price: number;
   recommendationID?: RECOMMENDATION_ID;
   options: string[];
+  isVisible: boolean;
 }
